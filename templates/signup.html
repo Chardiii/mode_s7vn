@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buyer Signup - Mode S7vn</title>
+</head>
+<body>
+    <h2>Buyer Signup</h2>
+    
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p style="color: {{ 'green' if category == 'success' else 'red' }}">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Username:</label><br>
+        <input type="text" name="username" required minlength="3"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" id="password" name="password" required minlength="6">
+        <input type="checkbox" onclick="togglePassword('password')"> Show<br><br>
+
+        <label>Confirm Password:</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+        <input type="checkbox" onclick="togglePassword('confirm_password')"> Show<br><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+
+    <script>
+        function togglePassword(id) {
+            const field = document.getElementById(id);
+            field.type = field.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
+</html>

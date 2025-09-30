@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products - Mode S7vn</title>
+</head>
+<body>
+    <h2>Available Products</h2>
+
+    {% if products %}
+        <ul>
+        {% for p in products %}
+            <li>
+                <h3>{{ p.name }}</h3>
+                <p>{{ p.description }}</p>
+                <p>Price: ₱{{ p.price }}</p>
+                <p>
+                    Stock: 
+                    {% if p.stock > 0 %}
+                        {{ p.stock }} available
+                    {% else %}
+                        <span style="color:red;">Out of Stock</span>
+                    {% endif %}
+                </p>
+
+                {% if p.image_url %}
+                    <img src="{{ p.image_url }}" alt="{{ p.name }}" width="120">
+                {% endif %}
+                <br>
+
+                <!-- View Details -->
+                <a href="{{ url_for('product_detail', product_id=p.product_id) }}">View</a>
+
+                <!-- Quick Add to Cart -->
+                {% if p.stock > 0 %}
+                <form action="{{ url_for('add_to_cart', product_id=p.product_id) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit">Add to Cart</button>
+                </form>
+                {% else %}
+                    <span style="color:gray;">Unavailable</span>
+                {% endif %}
+            </li>
+            <hr>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+</body>
+</html>
